@@ -21,5 +21,8 @@ lang: en_US.yml
 #If false plugin notifications will be sent to the chat box. If true messages will be sent to the action bar.
 sendMessagesToActionBar: true
 
+#If true, players can make itemframes glow by right clicking with a glowing ink sac (1.17 only)
+glowingItemFrame: true
+
 #Don't set to true unless you want players to see random messages or other undesirable behavior
 debug: false

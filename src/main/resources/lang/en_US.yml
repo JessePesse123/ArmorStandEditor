@@ -12,7 +12,7 @@ warn: c
 menutitle: 8
 
 #info
-setmode: 
+setmode:
   msg: Setting mode to <x>.
   head: Head Position
   body: Body Position
@@ -32,6 +32,7 @@ setmode:
   copy: Copy
   paste: Paste
   reset: Reset Pose
+  itemframe: Toggle Itemframe Visibility
 setaxis: 
   msg: Setting axis to <x>.
   x: X
@@ -47,16 +48,22 @@ setgravity:
   msg: Gravity turned <x>.
   on: on
   off: off
-nomode: 
+nomode:
   msg: Click with the edit tool away from an armorstand to select an editing mode first!
-copied: 
+copied:
   msg: ArmorStand state copied to slot <x>.
-pasted: 
+pasted:
   msg: ArmorStand state pasted from slot <x>.
+disabledslots:
+  msg: Toggled Equipment locks
 target:
   msg: ArmorStand target locked.
 notarget:
   msg: ArmorStand target unlocked.
+frametarget:
+  msg: Itemframe target locked
+noframetarget:
+  msg: Itemframe target unlocked.
 help:
   msg: "1. Hold the editing tool(<x>) in your main hand
 
@@ -199,6 +206,10 @@ helpgui:
   msg: Help!
   description:
     msg: Click here to get help!
+itemframevisible:
+  msg: Itemframe Visibility
+  description:
+    msg: Toggles an itemframes visibility
 
 #icons (equipment menu)
 disabled: 

@@ -46,13 +46,14 @@ public class ArmorStandEditorPlugin extends JavaPlugin{
 	boolean debug = false; //weather or not to broadcast messages via print(String message)
 	double coarseRot;
 	double fineRot;
+	public boolean glowingItemframes;
 
-	public ArmorStandEditorPlugin(){
+	public ArmorStandEditorPlugin() {
 		instance = this;
 	}
 
 	@Override
-	public void onEnable(){
+	public void onEnable() {
 		//saveResource doesn't accept File.seperator on windows, need to hardcode unix seperator "/" instead
 		updateConfig("", "config.yml");
 		updateConfig("lang/", "test_NA.yml");
@@ -68,13 +69,14 @@ public class ArmorStandEditorPlugin extends JavaPlugin{
 		lang = new Language(getConfig().getString("lang"), this);
 
 		coarseRot = getConfig().getDouble("coarse");
+		glowingItemframes = getConfig().getBoolean("glowingItemFrame");
 		fineRot = getConfig().getDouble("fine");
-		String toolType = getConfig().getString("tool", "FLINT");
+		final String toolType = getConfig().getString("tool", "FLINT");
 		editTool = Material.getMaterial(toolType);
 		requireToolData = getConfig().getBoolean("requireToolData", false);
-		if(requireToolData) editToolData = getConfig().getInt("toolData", Integer.MIN_VALUE);
+		if (requireToolData) editToolData = getConfig().getInt("toolData", Integer.MIN_VALUE);
 		requireToolLore = getConfig().getBoolean("requireToolLore", false);
-		if(requireToolLore) editToolLore= getConfig().getString("toolLore", null);
+		if (requireToolLore) editToolLore = getConfig().getString("toolLore", null);
 		debug = getConfig().getBoolean("debug", true);
 		sendToActionBar = getConfig().getBoolean("sendMessagesToActionBar", true);
 
@@ -86,63 +88,63 @@ public class ArmorStandEditorPlugin extends JavaPlugin{
 		hasSpigot = true;
 		try {
 			Class.forName("org.spigotmc.package-info", false, this.getClassLoader());
-		} catch (ClassNotFoundException e) {
+		} catch (final ClassNotFoundException e) {
 			hasSpigot = false;
 		}
 	}
 
-	private void updateConfig(String folder, String config) {
-		if(!new File(getDataFolder() + File.separator + folder + config).exists()){
-			saveResource(folder  + config, false);
+	private void updateConfig(final String folder, final String config) {
+		if (!new File(getDataFolder() + File.separator + folder + config).exists()) {
+			saveResource(folder + config, false);
 		}
 	}
 
 	@Override
-	public void onDisable(){
-		for(Player player : Bukkit.getServer().getOnlinePlayers()){
-			if(player.getOpenInventory().getTopInventory().getHolder() == editorManager.getMenuHolder()) player.closeInventory();
+	public void onDisable() {
+		for (final Player player : Bukkit.getServer().getOnlinePlayers()) {
+			if (player.getOpenInventory().getTopInventory().getHolder() == editorManager.getMenuHolder()) player.closeInventory();
 		}
 	}
 
-	public void log(String message){
+	public void log(final String message) {
 		this.getServer().getLogger().info("ArmorStandEditor: " + message);
 	}
 
-	public void print(String message){
-		if(debug){
+	public void print(final String message) {
+		if (debug) {
 			this.getServer().broadcastMessage(message);
 			log(message);
 		}
 	}
 
-	public String listPlugins(){
-		Plugin[] plugins = getServer().getPluginManager().getPlugins();
-		StringBuilder list = new StringBuilder();
-		for(Plugin p : plugins){
-			if(p!=null){
+	public String listPlugins() {
+		final Plugin[] plugins = getServer().getPluginManager().getPlugins();
+		final StringBuilder list = new StringBuilder();
+		for (final Plugin p : plugins) {
+			if (p != null) {
 				list.append(" :").append(p.getName()).append(" ").append(p.getDescription().getVersion()).append(": ");
 			}
 		}
 		return list.toString();
 	}
 
-	public static ArmorStandEditorPlugin instance(){
+	public static ArmorStandEditorPlugin instance() {
 		return instance;
 	}
 
-	public Language getLang(){
+	public Language getLang() {
 		return lang;
 	}
-	
-	public boolean isEditTool(ItemStack item){
-		if(item == null) return false;
-		if(editTool != item.getType()) return false;
-		if(requireToolData && item.getDurability() != (short)editToolData) return false;
-		if(requireToolLore && editToolLore != null){
-			if(!item.hasItemMeta()) return false;
-			if(!item.getItemMeta().hasLore()) return false;
-			if(item.getItemMeta().getLore().isEmpty()) return false;
-			if(!item.getItemMeta().getLore().get(0).equals(editToolLore)) return false;
+
+	public boolean isEditTool(final ItemStack item) {
+		if (item == null) return false;
+		if (editTool != item.getType()) return false;
+		if (requireToolData && item.getDurability() != (short) editToolData) return false;
+		if (requireToolLore && editToolLore != null) {
+			if (!item.hasItemMeta()) return false;
+			if (!item.getItemMeta().hasLore()) return false;
+			if (item.getItemMeta().getLore().isEmpty()) return false;
+			if (!item.getItemMeta().getLore().get(0).equals(editToolLore)) return false;
 		}
 		return true;
 	}
